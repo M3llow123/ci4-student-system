@@ -4,8 +4,14 @@ use App\Models\StudentModel;
 
 class Students extends BaseController {
     public function index() {
-        $model = new StudentModel();
-        return view('students/index', ['students' => $model->findAll()]);
+    $model = new StudentModel();
+    $search = $this->request->getGet('search');
+    if ($search) {
+        $students = $model->like('name', $search)->orLike('course', $search)->findAll();
+    } else {
+        $students = $model->findAll();
+    }
+    return view('students/index', ['students' => $students, 'search' => $search]);
     }
     public function create() {
         return view('students/create');
