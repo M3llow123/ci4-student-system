@@ -7,12 +7,13 @@ class Students extends BaseController {
     $model = new StudentModel();
     $search = $this->request->getGet('search');
     if ($search) {
-        $students = $model->like('name', $search)->orLike('course', $search)->findAll();
+        $students = $model->like('name', $search)->orLike('course', $search)->paginate(5);
     } else {
-        $students = $model->findAll();
+        $students = $model->paginate(5);
     }
-    return view('students/index', ['students' => $students, 'search' => $search]);
-    }
+    $pager = $model->pager;
+    return view('students/index', ['students' => $students, 'pager' => $pager, 'search' => $search]);
+   }
     public function create() {
         return view('students/create');
     }

@@ -22,3 +22,4 @@
   <?php endforeach; ?>
 </table>
 <?= view('students/partials/footer') ?>
+<?= $pager->links() ?>
